@@ -395,7 +395,8 @@ Write a function that removes a node from a Red-Black tree
 - Your function must return the pointer to the new root of the tree after deletion
 - The resulting tree must be a valid Red-Black tree
 - You’re allowed to have up to `7` functions in your file
-- Your file `0-rb_tree_node.c` will be compiled as well during the correction
+
+Your file `0-rb_tree_node.c` will be compiled as well during the correction
 #
 #### Repo:
 - GitHub repository: `atlas-system_algorithms`
