@@ -12,39 +12,25 @@ static void rotate_right(rb_tree_t *root, rb_tree_t **tree);
  */
 rb_tree_t *rb_tree_insert(rb_tree_t **tree, int value)
 {
-	rb_tree_t *add = NULL;
+	rb_tree_t *add = NULL, *tmp = *tree, *last = NULL;
 
 	if (!tree)
 		return (NULL);
-	if (!*tree)
+	for (tmp = *tree; tmp; tmp = value < tmp->n ? tmp->left : tmp->right)
 	{
-		*tree = rb_tree_node(NULL, value, BLACK);
-		return (*tree);
+		last = tmp;
+		if (value == tmp->n)
+			return (NULL);
 	}
-	if (value < (*tree)->n)
-	{
-		if (!HASLEFT(*tree))
-		{
-			add = rb_tree_node(*tree, value, RED), PA(add)->left = add;
-			return (add);
-		}
-		else
-			add = rb_tree_insert(&(*tree)->left, value);
-	}
-	else if (value > (*tree)->n)
-	{
-		if (!HASRIGHT(*tree))
-		{
-			add = rb_tree_node(*tree, value, RED), PA(add)->right = add;
-			return (add);
-		}
-		else
-			add = rb_tree_insert(&(*tree)->right, value);
-	}
-	else
-		return (NULL);
+	add = rb_tree_node(last, value, RED);
 	if (!add)
 		return (NULL);
+	if (ISROOT(add))
+		*tree = add;
+	else if (value < PA(add)->n)
+		PA(add)->left = add;
+	else if (value > PA(add)->n)
+		PA(add)->right = add;
 	rebalance(add, tree);
 	return (add);
 }
@@ -57,32 +43,31 @@ rb_tree_t *rb_tree_insert(rb_tree_t **tree, int value)
  */
 static void rebalance(rb_tree_t *add, rb_tree_t **tree)
 {
-	rb_tree_t *gran = NULL;
+	rb_tree_t *gran = GRAN(add);
 
-	for (gran = GRAN(add); PA(add) && ISRED(PA(add)); gran = GRAN(add))
-		if (gran)
+	for (; PA(add) && ISRED(PA(add)) && gran; gran = GRAN(add))
+	{
+		if (UNCLE(add) && ISRED(UNCLE(add)))
+			SETBLK(PA(add)), SETBLK(UNCLE(add)),
+			SETRED(gran), add = gran;
+		else
 		{
-			if (UNCLE(add) && ISRED(UNCLE(add)))
-				SETBLK(PA(add)), SETBLK(UNCLE(add)),
-				SETRED(gran), add = gran;
-			else
+			if (ISLEFT(PA(add)))
 			{
-				if (ISLEFT(PA(add)))
-				{
-					if (ISRIGHT(add))
-						add = PA(add), rotate_left(add, tree);
-					SETBLK(PA(add)), SETRED(gran);
-					rotate_right(gran, tree);
-				}
-				else if (ISRIGHT(PA(add)))
-				{
-					if (ISLEFT(add))
-						add = PA(add), rotate_right(add, tree);
-					SETBLK(PA(add)), SETRED(gran);
-					rotate_left(gran, tree);
-				}
+				if (ISRIGHT(add))
+					add = PA(add), rotate_left(add, tree);
+				SETBLK(PA(add)), SETRED(gran);
+				rotate_right(gran, tree);
+			}
+			else if (ISRIGHT(PA(add)))
+			{
+				if (ISLEFT(add))
+					add = PA(add), rotate_right(add, tree);
+				SETBLK(PA(add)), SETRED(gran);
+				rotate_left(gran, tree);
 			}
 		}
+	}
 	SETBLK(*tree);
 }
 
