@@ -1,8 +1,8 @@
 #include "rb_trees.h"
 
 static void rebalance(rb_tree_t *add, rb_tree_t **tree);
-static void rotate_left(rb_tree_t *tree, rb_tree_t **root);
-static void rotate_right(rb_tree_t *tree, rb_tree_t **root);
+static void rotate_left(rb_tree_t *root, rb_tree_t **tree);
+static void rotate_right(rb_tree_t *root, rb_tree_t **tree);
 
 /**
  * rb_tree_insert - inserts a value in red-black Tree
@@ -50,25 +50,25 @@ rb_tree_t *rb_tree_insert(rb_tree_t **tree, int value)
 }
 
 /**
- * rebalance -
+ * rebalance - repaints and rotates red-black tree as necessary to accommodate
+ *             newly added node
+ * @add: newly added node
+ * @tree: pointer to root node of red-black tree
  */
 static void rebalance(rb_tree_t *add, rb_tree_t **tree)
 {
-	rb_tree_t *gran = PA(add) ? GRAN(add) : NULL;
+	rb_tree_t *gran = NULL;
 
-	for (; PA(add) && ISRED(PA(add)); gran = GRAN(add))
+	for (gran = GRAN(add); PA(add) && ISRED(PA(add)); gran = GRAN(add))
 		if (gran)
 		{
 			if (UNCLE(add) && ISRED(UNCLE(add)))
-				puts("WOAH"),
 				SETBLK(PA(add)), SETBLK(UNCLE(add)),
 				SETRED(gran), add = gran;
 			else
 			{
-				puts("BWEH");
 				if (ISLEFT(PA(add)))
 				{
-					puts("0");
 					if (ISRIGHT(add))
 						add = PA(add), rotate_left(add, tree);
 					SETBLK(PA(add)), SETRED(gran);
@@ -76,7 +76,6 @@ static void rebalance(rb_tree_t *add, rb_tree_t **tree)
 				}
 				else if (ISRIGHT(PA(add)))
 				{
-					puts("1");
 					if (ISLEFT(add))
 						add = PA(add), rotate_right(add, tree);
 					SETBLK(PA(add)), SETRED(gran);
@@ -88,53 +87,53 @@ static void rebalance(rb_tree_t *add, rb_tree_t **tree)
 }
 
 /**
- * rotate_left - performs left-rotation on binary tree
- * @tree: pointer to root node of tree segment to be left-rotated
- * @root: pointer to root node of binary search tree
+ * rotate_left - performs left-rotation on red-black tree
+ * @root: pointer to root node of tree segment to be left-rotated
+ * @tree: pointer to root node of red-black tree
  */
-static void rotate_left(rb_tree_t *tree, rb_tree_t **root)
+static void rotate_left(rb_tree_t *root, rb_tree_t **tree)
 {
 	rb_tree_t *tmp = NULL;
 
-	if (!tree)
+	if (!root)
 		return;
-	tmp = tree->right;
-	tree->right = tmp->left;
+	tmp = root->right;
+	root->right = tmp->left;
 	if (tmp->left)
-		PA(tmp->left) = tree;
-	PA(tmp) = PA(tree);
+		PA(tmp->left) = root;
+	PA(tmp) = PA(root);
 	if (ISROOT(tmp))
-		*root = tmp;
-	else if (ISLEFT(tree))
+		*tree = tmp;
+	else if (ISLEFT(root))
 		PA(tmp)->left = tmp;
-	else if (ISRIGHT(tree))
+	else if (ISRIGHT(root))
 		PA(tmp)->right = tmp;
-	tmp->left = tree;
-	PA(tree) = tmp;
+	tmp->left = root;
+	PA(root) = tmp;
 }
 
 /**
- * rotate_right - performs right-rotation on binary tree
- * @tree: pointer to root node of tree segment to be right-rotated
- * @root: pointer to root node of binary search tree
+ * rotate_right - performs right-rotation on red-black tree
+ * @root: pointer to root node of tree segment to be right-rotated
+ * @tree: pointer to root node of red-black tree
  */
-static void rotate_right(rb_tree_t *tree, rb_tree_t **root)
+static void rotate_right(rb_tree_t *root, rb_tree_t **tree)
 {
 	rb_tree_t *tmp = NULL;
 
-	if (!tree)
+	if (!root)
 		return;
-	tmp = tree->left;
-	tree->left = tmp->right;
+	tmp = root->left;
+	root->left = tmp->right;
 	if (tmp->right)
-		PA(tmp->right) = tree;
-	PA(tmp) = PA(tree);
+		PA(tmp->right) = root;
+	PA(tmp) = PA(root);
 	if (ISROOT(tmp))
-		*root = tmp;
-	else if (ISLEFT(tree))
+		*tree = tmp;
+	else if (ISLEFT(root))
 		PA(tmp)->left = tmp;
-	else if (ISRIGHT(tree))
+	else if (ISRIGHT(root))
 		PA(tmp)->right = tmp;
-	tmp->right = tree;
-	PA(tree) = tmp;
+	tmp->right = root;
+	PA(root) = tmp;
 }
