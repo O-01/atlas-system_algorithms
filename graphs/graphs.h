@@ -4,6 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifndef __USE_XOPEN2K8
+#define __USE_XOPEN2K8
+#endif
+#include <string.h>
+
 /**
  * enum edge_type_e - Enumerates the different types of
  * connection between two vertices
@@ -68,6 +73,8 @@ typedef struct graph_s
 } graph_t;
 
 typedef graph_t g_t;
+
+void graph_display(const graph_t *graph);
 
 g_t *graph_create(void);
 vertex_t *graph_add_vertex(g_t *, const char *);
