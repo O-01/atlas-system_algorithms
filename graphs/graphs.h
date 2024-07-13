@@ -22,6 +22,12 @@ typedef enum edge_type_e
 	BIDIRECTIONAL
 } edge_type_t;
 
+#define UNI UNIDIRECTIONAL
+#define ISUNI(x) ((x) == UNI)
+
+#define BI BIDIRECTIONAL
+#define ISBI(x) ((x) == BI)
+
 /* Define the structure temporarily for usage in the edge_t */
 typedef struct vertex_s vertex_t;
 
@@ -73,6 +79,7 @@ typedef struct graph_s
 } graph_t;
 
 typedef graph_t g_t;
+typedef edge_type_t e_t_t;
 
 void graph_display(const graph_t *graph);
 
