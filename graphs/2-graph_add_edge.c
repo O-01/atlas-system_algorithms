@@ -14,27 +14,27 @@ static edge_t *create_edge(vertex_t *src, vertex_t *dest);
  */
 int graph_add_edge(g_t *graph, const char *src, const char *dest, e_t_t type)
 {
-	vertex_t *src_v = NULL, *dest_v = NULL;
-	edge_t *add_src_e = NULL, *add_dest_e = NULL;
+	vertex_t *src_vertex = NULL, *dest_vertex = NULL;
+	edge_t *src_edge = NULL, *dest_edge = NULL;
 
 	if (!graph || !src || !dest ||
 		!strcmp(src, dest) || (!ISUNI(type) && !ISBI(type)))
 		return (0);
-	src_v = get_vertex(graph, src);
-	dest_v = get_vertex(graph, dest);
-	if (!src_v || !dest_v)
+	src_vertex = get_vertex(graph, src);
+	dest_vertex = get_vertex(graph, dest);
+	if (!src_vertex || !dest_vertex)
 		return (0);
-	add_src_e = create_edge(src_v, dest_v);
+	src_edge = create_edge(src_vertex, dest_vertex);
 	if (ISUNI(type))
-		return (add_src_e != NULL);
-	add_dest_e = create_edge(dest_v, src_v);
-	if (!add_dest_e)
+		return (src_edge != NULL);
+	dest_edge = create_edge(dest_vertex, src_vertex);
+	if (!dest_edge)
 	{
-		free(add_src_e), add_src_e = NULL;
-		--src_v->nb_edges;
+		free(src_edge), src_edge = NULL;
+		--src_vertex->nb_edges;
 		return (0);
 	}
-	return (add_src_e && add_dest_e);
+	return (src_edge && dest_edge);
 }
 
 /**
