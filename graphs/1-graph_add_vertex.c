@@ -8,11 +8,11 @@
  */
 vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 {
-	vertex_t *add_v = NULL, *tmp = NULL;
+	vertex_t *add_v = NULL, *tmp = NULL, *last = tmp;
 
 	if (!graph || !str)
 		return (NULL);
-	for (tmp = graph->vertices; tmp && tmp->next; tmp = tmp->next)
+	for (tmp = graph->vertices; tmp; last = tmp, tmp = tmp->next)
 		if (!strncmp(tmp->content, str, strlen(str)))
 			return (NULL);
 	add_v = calloc(1, sizeof(vertex_t));
@@ -28,12 +28,12 @@ vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 	add_v->nb_edges = 0;
 	add_v->edges = NULL;
 	add_v->next = NULL;
-	if (!graph->vertices && !tmp)
+	if (!graph->vertices && !last)
 	{
 		graph->vertices = add_v;
 		return (add_v);
 	}
-	tmp->next = add_v;
+	last->next = add_v;
 	return (add_v);
 }
 

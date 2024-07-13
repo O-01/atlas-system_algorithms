@@ -78,16 +78,18 @@ typedef struct graph_s
 	vertex_t	*vertices;
 } graph_t;
 
-typedef graph_t g_t;
+/* FOR BETTY FORMATTING REQUIREMENTS */
 typedef edge_type_t e_t_t;
+typedef vertex_t v_t;
+typedef graph_t g_t;
 
 void graph_display(const graph_t *graph);
 
 g_t *graph_create(void);
 vertex_t *graph_add_vertex(g_t *, const char *);
-int graph_add_edge(g_t *, const char *, const char *, edge_type_t);
+int graph_add_edge(g_t *, const char *, const char *, e_t_t);
 void graph_delete(g_t *);
-size_t depth_first_traverse(const g_t *, void (*)(const vertex_t *, size_t));
-size_t breadth_first_traverse(const g_t *, void (*)(const vertex_t *, size_t));
+size_t depth_first_traverse(const g_t *, void (*)(const v_t *, size_t));
+size_t breadth_first_traverse(const g_t *, void (*)(const v_t *, size_t));
 
 #endif /* _GRAPHS_H_ */

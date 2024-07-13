@@ -62,15 +62,15 @@ static vertex_t *get_vertex(g_t *graph, const char *str)
  */
 static edge_t *get_add_point(edge_t *edges, const char *str, int *found)
 {
-	edge_t *tmp = NULL;
+	edge_t *tmp = NULL, *last = NULL;
 
-	for (tmp = edges; tmp && tmp->next; tmp = tmp->next)
+	for (tmp = edges; tmp; last = tmp, tmp = tmp->next)
 		if (!strncmp(tmp->dest->content, str, strlen(str)))
 		{
 			*found = 1;
 			return (NULL);
 		}
-	return (tmp);
+	return (last);
 }
 
 /**
