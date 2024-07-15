@@ -19,7 +19,7 @@ size_t breadth_first_traverse(const graph_t *graph,
 	visit = calloc(1, (graph->nb_vertices / 8) + 1);
 	if (!visit)
 		return (0);
-	queue = calloc(graph->nb_vertices, sizeof(vertex_t *));
+	queue = calloc(graph->nb_vertices + 1, sizeof(vertex_t *));
 	if (!queue)
 	{
 		free(visit), visit = NULL;
