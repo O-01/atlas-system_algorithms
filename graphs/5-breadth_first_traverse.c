@@ -1,5 +1,4 @@
 #include "graphs.h"
-#include <alloca.h>
 
 /**
  * breadth_first_traverse - traverse graph using breadth-first algorithm
