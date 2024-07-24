@@ -34,6 +34,15 @@ typedef struct heap_s
 	binary_tree_node_t *root;
 } heap_t;
 
+#define ISLEAF(x) (!(x)->left && !(x)->right)
+#define ISROOT(x) (!(x)->parent)
+
+#define HAS_L(x) ((x)->left)
+#define HAS_R(x) ((x)->right)
+
+#define ISLEFT(x) ((x) == (x)->parent->left)
+#define ISRIGHT(x) ((x) == (x)->parent->right)
+
 heap_t *heap_create(int (*data_cmp)(void *, void *));
 binary_tree_node_t *binary_tree_node(binary_tree_node_t *parent, void *data);
 binary_tree_node_t *heap_insert(heap_t *heap, void *data);
