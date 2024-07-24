@@ -50,8 +50,8 @@ int main(void)
     int array[] = {
         34, 2, 45, 23, 76
     };
-    size_t size = sizeof(array) / sizeof(array[0]);
-    size_t i;
+    /* size_t size = sizeof(array) / sizeof(array[0]); */
+    size_t i = 0;
     binary_tree_node_t *node;
     int *extracted;
 
@@ -64,15 +64,13 @@ int main(void)
     printf("Heap size: %lu\n", heap->size);
     printf("Heap root: %p\n", (void *)heap->root);
 
-    for (i = 0; i < size; ++i)
+    node = heap_insert(heap, &(array[i]));
+    if (node == NULL)
     {
-        node = heap_insert(heap, &(array[i]));
-        if (node == NULL)
-        {
-            fprintf(stderr, "Failed to insert a node\n");
-            return (EXIT_FAILURE);
-        }
+        fprintf(stderr, "Failed to insert a node\n");
+        return (EXIT_FAILURE);
     }
+
     binary_tree_print(heap->root, print_int);
     printf("Heap size: %lu\n\n", heap->size);
 

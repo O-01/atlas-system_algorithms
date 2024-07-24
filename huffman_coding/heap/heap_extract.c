@@ -18,15 +18,15 @@ void *heap_extract(heap_t *heap)
 	if (!heap || !heap->root || !heap->size)
 		return (NULL);
 	--heap->size;
+	hold = heap->root->data;
 	if (ISLEAF(heap->root))
-		return (free(heap->root), heap->root = NULL);
+		return (free(heap->root), heap->root = NULL, hold);
 	for (set_mask(&mask, heap->size), pos = heap->root; mask > 1; mask >>= 1)
 		pos = mask & heap->size ? pos->right : pos->left;
 	if (heap->size & 1)
 		tmp = pos->left, pos->left = NULL;
 	else
 		tmp = pos->right, pos->right = NULL;
-	hold = heap->root->data;
 	heap->root->data = (int *)tmp->data, free(tmp), tmp = NULL;
 	bubble_down(heap);
 	return (hold);
