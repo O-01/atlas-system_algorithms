@@ -21,9 +21,8 @@ binary_tree_node_t *heap_insert(heap_t *heap, void *data)
 		return (NULL);
 	++heap->size;
 	if (!heap->root)
-		return (!heap->root ? heap->root = add, add : heap->root);
-	set_mask(&mask, heap->size);
-	for (pos = heap->root; mask > 1; mask >>= 1)
+		return (heap->root = add);
+	for (set_mask(&mask, heap->size), pos = heap->root; mask > 1; mask >>= 1)
 		pos = mask & heap->size ? pos->right : pos->left;
 	if ((heap->size - 1) & 1)
 		pos->left = add;
