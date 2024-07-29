@@ -16,6 +16,8 @@ typedef struct symbol_s
 } symbol_t;
 
 #define FREQ(x) ((symbol_t *)((binary_tree_node_t *)(x))->data)->freq
+#define DATA(x) ((x)->data)
+#define FREQSUM(x) (FREQ(DATA(x)) + FREQ(DATA((x)->left)))
 
 symbol_t *symbol_create(char data, size_t freq);
 heap_t *huffman_priority_queue(char *data, size_t *freq, size_t size);

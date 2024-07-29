@@ -39,9 +39,19 @@ typedef struct heap_s
 
 #define HAS_L(x) ((x)->left)
 #define HAS_R(x) ((x)->right)
+#define HAS_BOTH(x) (HAS_L(x) && HAS_R(x))
 
 #define ISLEFT(x) ((x) == (x)->parent->left)
 #define ISRIGHT(x) ((x) == (x)->parent->right)
+
+#define CMP_L(x) (heap->data_cmp((x)->data, (x)->left->data))
+#define CMP_R(x) (heap->data_cmp((x)->data, (x)->right->data))
+
+#define L_LESS(x) (HAS_L(tmp) && CMP_L(tmp) > 0)
+#define R_LESS(x) (HAS_R(tmp) && CMP_R(tmp) > 0)
+
+#define CMP_CHILDREN(x) (\
+	heap->data_cmp((x)->left->data, (x)->right->data))
 
 heap_t *heap_create(int (*data_cmp)(void *, void *));
 binary_tree_node_t *binary_tree_node(binary_tree_node_t *parent, void *data);
