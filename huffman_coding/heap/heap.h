@@ -47,8 +47,8 @@ typedef struct heap_s
 #define CMP_L(x) (heap->data_cmp((x)->data, (x)->left->data))
 #define CMP_R(x) (heap->data_cmp((x)->data, (x)->right->data))
 
-#define L_LESS(x) (HAS_L(tmp) && CMP_L(tmp) > 0)
-#define R_LESS(x) (HAS_R(tmp) && CMP_R(tmp) > 0)
+#define L_LESS(x) (HAS_L(tmp) && CMP_L(tmp) >= 0)
+#define R_LESS(x) (HAS_R(tmp) && CMP_R(tmp) >= 0)
 
 #define CMP_CHILDREN(x) (\
 	heap->data_cmp((x)->left->data, (x)->right->data))
