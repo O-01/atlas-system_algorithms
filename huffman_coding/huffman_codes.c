@@ -52,4 +52,6 @@ static void codes_generator(binary_tree_node_t *node, size_t route)
 	}
 	codes_generator(node->left, route << 1);
 	codes_generator(node->right, (route << 1) + 1);
+	free(node->data), node->data = NULL;
+	free(node), node = NULL;
 }

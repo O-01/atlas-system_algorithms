@@ -4,6 +4,7 @@
 #include "huffman.h"
 
 void binary_tree_print(const binary_tree_node_t *heap, int (*print_data)(char *, void *));
+void free_data(void *data);
 
 /**
  * symbol_print - Prints a symbol structure
@@ -77,6 +78,7 @@ int main(void)
     binary_tree_print(priority_queue->root, nested_print);
     printf("\n");
 
+    heap_delete(priority_queue, free_data), priority_queue = NULL;
     root = huffman_tree(data, freq, size);
     if (!root)
     {
@@ -85,6 +87,7 @@ int main(void)
     }
     binary_tree_print(root, symbol_print);
 
+    free_data(root);
 
     if (!huffman_codes(data, freq, size))
     {
@@ -93,4 +96,15 @@ int main(void)
     }
 
     return (EXIT_SUCCESS);
+}
+
+void free_data(void *data)
+{
+    if (!data)
+        return;
+    free_data(((binary_tree_node_t *)data)->left);
+    free_data(((binary_tree_node_t *)data)->right);
+    free((symbol_t *)((binary_tree_node_t *)data)->data);
+    ((binary_tree_node_t *)data)->data = NULL;
+    free(data), data = NULL;
 }
