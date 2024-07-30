@@ -17,7 +17,15 @@ typedef struct symbol_s
 
 #define FREQ(x) ((symbol_t *)((binary_tree_node_t *)(x))->data)->freq
 #define DATA(x) ((x)->data)
-#define FREQSUM(x) (FREQ(DATA(x)) + FREQ(DATA((x)->left)))
+
+#define CHOOSE(x) (\
+	FREQ(DATA((x)->left)) < FREQ(DATA((x)->right)) ? \
+	FREQ(DATA((x)->left)) : FREQ(DATA((x)->right)))
+
+#define FREQSUM(x) (FREQ(DATA(x)) + CHOOSE(x))
+#define FREQS(x) (HAS_R(x) ? FREQSUM(x) : FREQ(DATA(x)))
+
+#define TEST(x, y) (FREQ(x) + FREQ(y))
 
 symbol_t *symbol_create(char data, size_t freq);
 heap_t *huffman_priority_queue(char *data, size_t *freq, size_t size);

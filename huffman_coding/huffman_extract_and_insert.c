@@ -15,11 +15,14 @@ int huffman_extract_and_insert(heap_t *priority_queue)
 	size_t add_freq = 0;
 	binary_tree_node_t *left = NULL, *right = NULL, *add = NULL;
 
-	if (!priority_queue || !priority_queue->root || !priority_queue->size)
+	if (!priority_queue || !priority_queue->root)
 		return (0);
-	add_freq = FREQSUM(priority_queue->root);
-	left = (binary_tree_node_t *)_heap_extract(priority_queue);
-	right = (binary_tree_node_t *)_heap_extract(priority_queue);
+	/* add_freq = FREQSUM(priority_queue->root); */
+	left = _heap_extract(priority_queue);
+	right = _heap_extract(priority_queue);
+	/* printf("%lu <-> %lu\n", FREQ(left), FREQ(right)); */
+	add_freq = TEST(left, right);
+	/* printf("%lu\n", add_freq); */
 	add = binary_tree_node(NULL, symbol_create((char)-1, add_freq));
 	if (!add || !heap_insert(priority_queue, add))
 		return (0);
@@ -40,11 +43,11 @@ static void *_heap_extract(heap_t *heap)
 	unsigned long mask = 0;
 	void *hold = NULL;
 
-	if (!heap || !heap->root || !heap->size)
+	if (!heap || !heap->root)
 		return (NULL);
 	hold = heap->root->data;
 	if (ISLEAF(heap->root))
-		return (free(heap->root), heap->root = NULL, hold);
+		return (free(heap->root), heap->root = NULL, --heap->size, hold);
 	for (set_mask(&mask, heap->size), pos = heap->root; mask > 1; mask >>= 1)
 		pos = mask & heap->size ? pos->right : pos->left;
 	--heap->size;
@@ -82,12 +85,12 @@ static void bubble_down(heap_t *heap)
 
 	for (tmp = heap->root;;)
 	{
-		if ((L_LESS(tmp) && R_LESS(tmp)) && CMP_CHILDREN(tmp) >= 0)
+		if ((L_LESS(tmp) && R_LESS(tmp)) && CMP_CHILDREN(tmp) > 0)
 			swap = (int *)tmp->right->data,
 			tmp->right->data = tmp->data,
 			tmp->data = swap,
 			tmp = tmp->right;
-		if (L_LESS(tmp))
+		else if (L_LESS(tmp))
 			swap = (int *)tmp->left->data,
 			tmp->left->data = tmp->data,
 			tmp->data = swap,
@@ -100,7 +103,7 @@ static void bubble_down(heap_t *heap)
 		if ((!tmp->left && !tmp->right) ||
 			(CMP_L(tmp) <= 0 && !tmp->right) ||
 			(HAS_BOTH(tmp) && (CMP_L(tmp) <= 0 && CMP_R(tmp) <= 0) &&
-			CMP_CHILDREN(tmp) <= 0))
+			CMP_CHILDREN(tmp) < 0))
 			break;
 	}
 }
