@@ -37,9 +37,11 @@ int main(void)
     binary_tree_node_t *root;
     char data[] = {
         'a', 'b', 'c', 'd', 'e', 'f'
+        /* 'b', 'e', 'H', 'l', 'n', 'o', 'o', 'r', 't' */
     };
     size_t freq[] = {
         6, 11, 12, 13, 16, 36
+        /* 1, 1, 1, 1, 1, 1, 1, 1, 1 */
     };
     size_t size = sizeof(data) / sizeof(data[0]);
 
