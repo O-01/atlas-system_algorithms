@@ -17,12 +17,9 @@ int huffman_extract_and_insert(heap_t *priority_queue)
 
 	if (!priority_queue || !priority_queue->root)
 		return (0);
-	/* add_freq = FREQSUM(priority_queue->root); */
 	left = _heap_extract(priority_queue);
 	right = _heap_extract(priority_queue);
-	/* printf("%lu <-> %lu\n", FREQ(left), FREQ(right)); */
-	add_freq = TEST(left, right);
-	/* printf("%lu\n", add_freq); */
+	add_freq = FREQSUM(left, right);
 	add = binary_tree_node(NULL, symbol_create((char)-1, add_freq));
 	if (!add || !heap_insert(priority_queue, add))
 		return (0);
