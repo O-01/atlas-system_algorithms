@@ -60,10 +60,12 @@ int nested_print(char *buffer, void *data)
 int main(void)
 {
     char data[] = {
-        'a', 'b', 'c', 'd', 'e', 'f'
+        /* 'a', 'b', 'c', 'd', 'e', 'f' */
+        'H', 'o', 'l', 'b', 'e', 'r', 't', 'o', 'n'
     };
     size_t freq[] = {
-        6, 11, 12, 13, 16, 36
+        /* 6, 11, 12, 13, 16, 36 */
+        1, 1, 1, 1, 1, 1, 1, 1, 1
     };
     size_t size = sizeof(data) / sizeof(data[0]);
 	heap_t *priority_queue = NULL;
