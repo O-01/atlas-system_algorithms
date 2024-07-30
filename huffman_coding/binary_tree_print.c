@@ -19,7 +19,7 @@
 static int print_t(const binary_tree_node_t *tree, int offset, int depth,
 	char **s, int (*print_data)(char *, void *))
 {
-	char b[6];
+	char b[7];
 	int width, left, right, is_left, i;
 
 	if (!tree)
