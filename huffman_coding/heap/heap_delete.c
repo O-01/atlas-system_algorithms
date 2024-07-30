@@ -9,7 +9,7 @@ static void freedom(binary_tree_node_t *root, void (*free_data)(void *));
  */
 void heap_delete(heap_t *heap, void (*free_data)(void *))
 {
-	if (!heap || !heap->root || !heap->size)
+	if (!heap)
 		return;
 	freedom(heap->root, free_data);
 	free(heap), heap = NULL;
