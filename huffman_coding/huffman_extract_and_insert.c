@@ -82,7 +82,7 @@ static void bubble_down(heap_t *heap)
 
 	for (tmp = heap->root;;)
 	{
-		if ((L_LESS(tmp) && R_LESS(tmp)) && CMP_CHILDREN(tmp) >= 0)
+		if ((L_LESS(tmp) && R_LESS(tmp)) && CMP_CHILDREN(tmp) > 0)
 			swap = (int *)tmp->right->data,
 			tmp->right->data = tmp->data,
 			tmp->data = swap,
@@ -98,8 +98,8 @@ static void bubble_down(heap_t *heap)
 			tmp->data = swap,
 			tmp = tmp->right;
 		if ((!tmp->left && !tmp->right) ||
-			(CMP_L(tmp) <= 0 && !tmp->right) ||
-			(HAS_BOTH(tmp) && (CMP_L(tmp) <= 0 && CMP_R(tmp) <= 0) &&
+			(CMP_L(tmp) < 0 && !tmp->right) ||
+			(HAS_BOTH(tmp) && (CMP_L(tmp) < 0 && CMP_R(tmp) < 0) &&
 			CMP_CHILDREN(tmp) <= 0))
 			break;
 	}
