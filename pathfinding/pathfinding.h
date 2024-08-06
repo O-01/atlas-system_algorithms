@@ -22,13 +22,20 @@ typedef struct point_s
 
 typedef point_t p_t;
 
-typedef enum coordinates_e
+/**
+ * enum coordinates_arr_e - enum for coordinates within two-dimensional array
+ * @Y: y-axis/row coordinate
+ * @X: x-axis/column coordinate
+ * @TARGET_Y: target y-axis/row coordinate
+ * @TARGET_X: target x-axis/column coordinate
+ */
+typedef enum coordinates_arr_e
 {
 	Y = 0,
 	X,
 	TARGET_Y,
 	TARGET_X
-} coord;
+} coord_arr;
 
 queue_t *backtracking_array(
 	char **map, int rows, int cols, p_t const *start, p_t const *target);
