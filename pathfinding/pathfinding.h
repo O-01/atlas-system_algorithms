@@ -22,6 +22,14 @@ typedef struct point_s
 
 typedef point_t p_t;
 
+typedef enum coordinates_e
+{
+	Y = 0,
+	X,
+	TARGET_Y,
+	TARGET_X
+} coord;
+
 queue_t *backtracking_array(
 	char **map, int rows, int cols, p_t const *start, p_t const *target);
 queue_t *backtracking_graph(
