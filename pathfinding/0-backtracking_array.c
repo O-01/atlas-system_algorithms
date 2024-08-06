@@ -37,7 +37,7 @@ queue_t *backtracking_array(
 	for (; row < rows; ++row)
 		visit[row] = calloc(1, (cols / 8) + 1);
 	if (!backtrack(map, visit, start->x, start->y, q))
-		return (queue_delete(q), NULL);
+		queue_delete(q), q = NULL;
 /*
  *	for (int y = 0; y < rows - 1; ++y)
  *		for (int x = 0; x < cols - 1; ++x)
