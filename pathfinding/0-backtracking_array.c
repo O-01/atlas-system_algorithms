@@ -1,6 +1,6 @@
 #include "pathfinding.h"
 
-queue_t *btrack(char **map, char **visit, int x, int y, q_t *q);
+static queue_t *track(char **map, char **visit, int x, int y, q_t *q);
 
 int limit[4];
 
@@ -32,7 +32,7 @@ queue_t *backtracking_array(
 		return (queue_delete(q), NULL);
 	for (; row < rows; ++row)
 		visit[row] = calloc(1, (cols / 8) + 1);
-	if (!btrack(map, visit, start->x, start->y, q))
+	if (!track(map, visit, start->x, start->y, q))
 		return (queue_delete(q), NULL);
 	/* for (int y = 0; y < rows - 1; ++y)
 		for (int x = 0; x < cols - 1; ++x)
@@ -45,7 +45,7 @@ queue_t *backtracking_array(
 	return (q);
 }
 
-queue_t *btrack(char **map, char **visit, int x, int y, q_t *q)
+static queue_t *track(char **map, char **visit, int x, int y, q_t *q)
 {
 	point_t *add = NULL;
 
@@ -55,8 +55,8 @@ queue_t *btrack(char **map, char **visit, int x, int y, q_t *q)
 	visit[y][x / 8] |= (1 << (x % 8));
 	printf("Checking coordinates [%d, %d]\n", x, y);
 	if ((x == limit[TARGET_X] && y == limit[TARGET_Y]) ||
-		btrack(map, visit, x + 1, y, q) || btrack(map, visit, x, y + 1, q) ||
-		btrack(map, visit, x - 1, y, q) || btrack(map, visit, x, y - 1, q))
+		track(map, visit, x + 1, y, q) || track(map, visit, x, y + 1, q) ||
+		track(map, visit, x - 1, y, q) || track(map, visit, x, y - 1, q))
 	{
 		add = calloc(1, sizeof(point_t));
 		if (!add)
