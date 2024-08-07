@@ -48,7 +48,7 @@ static queue_t *backtrack(
 			content = calloc(1, strlen(current->content) + 1);
 			if (!content)
 				return (NULL);
-			content = current->content;
+			memcpy(content, current->content, strlen(current->content));
 			queue_push_front(q, content);
 			return (q);
 		}
