@@ -1,6 +1,7 @@
 #include "pathfinding.h"
 
 #define BIG (1024 * 1024 * 4)
+#define CHECK_MSG "Checking %s, distance from %s is %d\n"
 #define DIST_SUM(x) (current_dist + (x)->weight)
 #define E_IDX(x) ((x)->dest->index)
 
@@ -40,8 +41,7 @@ queue_t *dijkstra_graph(
 				current = vertices[iter], current_dist = dist[current->index];
 		if (!current)
 			break;
-		printf("Checking %s, distance from %s is %d\n",
-			current->content, start->content, current_dist);
+		printf(CHECK_MSG, current->content, start->content, current_dist);
 		++visit[current->index];
 		for (edge = current->edges; edge; edge = edge->next)
 			if (!visit[E_IDX(edge)] && DIST_SUM(edge) < dist[E_IDX(edge)])
@@ -62,7 +62,7 @@ queue_t *dijkstra_graph(
  * @vertices: pointer to array of pointers to vertices, serialization of all
  *            vertices within graph ordered by index
  * @route: pointer to array of pointers to vertices, serialization of vertices
- *         composing route from start to target, as applicable
+ *         composing route connections from start to target, as applicable
  * @graph: pointer to graph to go through
  * Return: 1 upon total success, otherwise 0 upon error
  */
@@ -100,7 +100,7 @@ static int prep(queue_t **q, int **visit, int **dist,
  * @start: pointer to starting vertex
  * @current: pointer to vertex, assumed to be pointer to target vertex
  * @route: pointer to array of pointers to vertices, serialization of vertices
- *         composing route from start to target, as applicable
+ *         composing route connections from start to target, as applicable
  * Return: 1 upon success, otherwise 0 upon error
  */
 static int get_path(
@@ -127,7 +127,7 @@ static int get_path(
 /**
  * free_stuff - frees memory allocated within dijkstra_graph
  * @route: pointer to array of pointers to vertices, serialization of vertices
- *         composing route from start to target, as applicable
+ *         composing route connections from start to target, as applicable
  * @vertices: pointer to array of pointers to vertices, serialization of all
  *            vertices within graph ordered by index
  * @dist: pointer to integer array, record of distances from start point
