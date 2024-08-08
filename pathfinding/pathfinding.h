@@ -8,6 +8,9 @@
 #include "queues.h"
 #include "graphs.h"
 
+#define BIG (0x7FFFFFFF)
+#define FREE_0(x) (free((x)), (x) = NULL)
+
 typedef queue_t q_t;
 
 /**
