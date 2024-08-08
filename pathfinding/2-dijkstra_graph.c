@@ -1,7 +1,7 @@
 #include "pathfinding.h"
 
 #define CHECK_MSG "Checking %s, distance from %s is %d\n"
-#define DIST_SUM(x) (current_dist + (x)->weight)
+#define DIST_SUM(x) (min_distance + (x)->weight)
 #define E_IDX(x) ((x)->dest->index)
 
 static int prep(q_t **, int **, int **, vertex_t ***, graph_t *);
@@ -21,7 +21,7 @@ queue_t *dijkstra_graph(
 	graph_t *graph, vertex_t const *start, vertex_t const *target)
 {
 	queue_t *q = NULL;
-	int *visit = NULL, *dist = NULL, current_dist = 0;
+	int *visit = NULL, *dist = NULL, min_distance = 0;
 	vertex_t **route = NULL, *current = NULL, *iter = NULL;
 	edge_t *edge = NULL;
 
@@ -29,16 +29,15 @@ queue_t *dijkstra_graph(
 		return (NULL);
 	if (!prep(&q, &visit, &dist, &route, graph))
 		return (NULL);
-	dist[start->index] = 0;
-	route[start->index] = (vertex_t *)&start->index;
-	for (current_dist = BIG; current != target; current_dist = BIG)
+	dist[start->index] = 0, route[start->index] = (vertex_t *)&start->index;
+	for (min_distance = BIG; current != target; min_distance = BIG)
 	{
 		for (current = NULL, iter = graph->vertices; iter; iter = iter->next)
-			if (!visit[iter->index] && dist[iter->index] < current_dist)
-				current = iter, current_dist = dist[current->index];
+			if (!visit[iter->index] && dist[iter->index] < min_distance)
+				current = iter, min_distance = dist[current->index];
 		if (!current)
 			break;
-		printf(CHECK_MSG, current->content, start->content, current_dist);
+		printf(CHECK_MSG, current->content, start->content, min_distance);
 		++visit[current->index];
 		for (edge = current->edges; edge; edge = edge->next)
 			if (!visit[E_IDX(edge)] && DIST_SUM(edge) < dist[E_IDX(edge)])
@@ -64,8 +63,8 @@ queue_t *dijkstra_graph(
  * @graph: pointer to graph to go through
  * Return: 1 upon total success, otherwise 0 upon error
  */
-static int prep(queue_t **q, int **visit, int **dist,
-	vertex_t ***route, graph_t *graph)
+static int prep(
+	queue_t **q, int **visit, int **dist, vertex_t ***route, graph_t *graph)
 {
 	vertex_t *tmp = NULL;
 
