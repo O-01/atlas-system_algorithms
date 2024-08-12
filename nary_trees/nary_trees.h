@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define FREE_0(x) (free((x)), (x) = NULL)
 
