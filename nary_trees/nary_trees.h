@@ -6,6 +6,7 @@
 #include <string.h>
 
 #define FREE_0(x) (free((x)), (x) = NULL)
+#define MAX(x, y) ((x) > (y) ? (x) : (y))
 
 /**
  * struct nary_tree_s - N-ary tree node structure
