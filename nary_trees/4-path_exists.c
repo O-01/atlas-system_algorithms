@@ -22,7 +22,7 @@ int path_exists(nary_tree_t const *root, char const * const *path)
 		return (0);
 	++track;
 	for (current = (n_t_t *)&root->content; current; current = current->next)
-		if (!strncmp(current->content, *path, strlen(*path)) &&
+		if (!strcmp(current->content, *path) &&
 			path_exists(current->children, path + 1))
 			return (1);
 	return (0);
