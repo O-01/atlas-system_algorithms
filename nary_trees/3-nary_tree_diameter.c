@@ -3,7 +3,9 @@
 static size_t nary_depth(nary_tree_t *node);
 
 /**
- * 
+ * nary_tree_diameter - computes diameter of N-ary tree
+ * @root: pointer to root node of tree to compute diameter of
+ * Return: diameter of tree pointed to by root
  */
 size_t nary_tree_diameter(nary_tree_t const *root)
 {
@@ -12,8 +14,6 @@ size_t nary_tree_diameter(nary_tree_t const *root)
 
 	if (!root)
 		return (0);
-	else if (!root->children)
-		return (1);
 	for (current = root->children; current; current = current->next)
 	{
 		height = nary_depth(current);
@@ -26,6 +26,11 @@ size_t nary_tree_diameter(nary_tree_t const *root)
 	return (MAX(diameter, high + low + 1));
 }
 
+/**
+ * nary_depth - calculates depth of current node within N-ary tree
+ * @node: pointer to current node
+ * Return: depth of current node within N-ary tree
+ */
 static size_t nary_depth(nary_tree_t *node)
 {
 	size_t depth = 0;
